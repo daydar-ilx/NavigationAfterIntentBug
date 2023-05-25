@@ -27,9 +27,9 @@ public class MainActivity : MauiAppCompatActivity
         base.OnNewIntent(intent);
 
         // create path for the shared file
-        if (Intent.Action == Intent.ActionSend)
+        if (intent.Action == Intent.ActionSend)
         {
-            var pdf = Intent.ClipData.GetItemAt(0);
+            var pdf = intent.ClipData.GetItemAt(0);
             var pdfStream = ContentResolver.OpenInputStream(pdf.Uri);
 
             var memoryStream = new MemoryStream();
@@ -42,10 +42,10 @@ public class MainActivity : MauiAppCompatActivity
             sharedFilePath = filePath;
 
         }
-        else if (Intent.Action == Intent.ActionView)
+        else if (intent.Action == Intent.ActionView)
         {
-            var path = Intent.Data.Path;
-            var pdfStream = ContentResolver.OpenInputStream(Intent.Data);
+            var path = intent.Data.Path;
+            var pdfStream = ContentResolver.OpenInputStream(intent.Data);
 
             var memoryStream = new MemoryStream();
             pdfStream.CopyTo(memoryStream);
@@ -60,7 +60,7 @@ public class MainActivity : MauiAppCompatActivity
 
         if (sharedFilePath != null)
         {
-            ((App)App.Current).GoToAnotherPage(sharedFilePath);
+            ((App)Microsoft.Maui.Controls.Application.Current).GoToAnotherPage(sharedFilePath);
         }
 
         sharedFilePath = null;
